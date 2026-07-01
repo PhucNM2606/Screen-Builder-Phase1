@@ -1,49 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Tree -->
     <record id="view_screen_display_tree" model="ir.ui.view">
         <field name="name">screen.builder.display.tree</field>
         <field name="model">screen.builder.display</field>
         <field name="arch" type="xml">
-            <list>
+            <list string="Screen Displays">
+                <field name="code"/>
                 <field name="name"/>
                 <field name="model_id"/>
-                <field name="record_id"/>
-                <field name="token"/>
-                <field name="public_url"/>
+                <field name="view_type"/>
+                <field name="token" optional="hide"/>
+                <field name="public_url" widget="url" text="Open Link"/>
+                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
 
-    <!-- Form -->
     <record id="view_screen_display_form" model="ir.ui.view">
         <field name="name">screen.builder.display.form</field>
         <field name="model">screen.builder.display</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Screen Display Configuration">
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="code" placeholder="SCR-00000"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="model_id"/>
-                        <field name="record_id"/>
-                        <field name="view_id"/>
-                        <field name="token" readonly="1"/>
-                        <field name="public_url" readonly="1"/>
-                        <field name="active"/>
+                        <group string="Thông tin cơ bản">
+                            <field name="name" placeholder="Ví dụ: Kitchen Monitor"/>
+                            <field name="model_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="view_type"/>
+                        </group>
+                        <group string="Cấu hình chia sẻ">
+                            <field name="token"/>
+                            <field name="public_url" widget="url" readonly="1"/>
+                            <field name="active"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Action -->
     <record id="action_screen_display" model="ir.actions.act_window">
         <field name="name">Screen Builder</field>
         <field name="res_model">screen.builder.display</field>
         <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo màn hình vận hành mới
+            </p>
+            <p>
+                Chọn model nguồn và loại hiển thị để tự động sinh URL công khai.
+            </p>
+        </field>
     </record>
 
-    <!-- Menu -->
     <menuitem
         id="menu_screen_builder_root"
         name="Screen Builder"
