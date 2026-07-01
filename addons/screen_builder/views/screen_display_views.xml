@@ -1,0 +1,58 @@
+<odoo>
+
+    <!-- Tree -->
+    <record id="view_screen_display_tree" model="ir.ui.view">
+        <field name="name">screen.builder.display.tree</field>
+        <field name="model">screen.builder.display</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="record_id"/>
+                <field name="token"/>
+                <field name="public_url"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_screen_display_form" model="ir.ui.view">
+        <field name="name">screen.builder.display.form</field>
+        <field name="model">screen.builder.display</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="model_id"/>
+                        <field name="record_id"/>
+                        <field name="view_id"/>
+                        <field name="token" readonly="1"/>
+                        <field name="public_url" readonly="1"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_screen_display" model="ir.actions.act_window">
+        <field name="name">Screen Builder</field>
+        <field name="res_model">screen.builder.display</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_screen_builder_root"
+        name="Screen Builder"
+        sequence="100"/>
+
+    <menuitem
+        id="menu_screen_builder_display"
+        name="Displays"
+        parent="menu_screen_builder_root"
+        action="action_screen_display"/>
+
+</odoo>

@@ -1,0 +1,13 @@
+<odoo>
+    <template id="display_page" name="Display Page">
+        <t t-call="web.frontend_layout">
+
+            <div id="sb_root">Loading...</div>
+
+            <script>
+                window.screen_token = "<t t-esc='token'/>";
+            </script>
+
+        </t>
+    </template>
+</odoo>

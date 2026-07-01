@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_screen_display,screen.display,model_screen_builder_display,base.group_system,1,1,1,1
+access_generate_display,generate.display,model_generate_display_wizard,base.group_system,1,1,1,1

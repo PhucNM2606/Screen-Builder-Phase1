@@ -1,0 +1,115 @@
+Các đối tượng cần có trong Models:
+
+Screen_builder_screen: Đối tượng trung tâm, chỉ lưu thông tin chung
+- Id
+- name
+- Code(tự sinh)
+- Description
+- Screen_type
+- Department_id
+- Model_id
+- State
+- Version
+- active
+- Create by
+- Approved by
+- Publish_at
+
+Screen_builder_field: Danh sách các field hiển thị trên Screen uược tạo
+- id
+- screen_id
+- field_id
+- label
+- sequence
+- visible?
+- readonly?
+- required?
+- width?
+
+Screen_builder_layout: Bố cục giao diện, sẽ có những loại nào
+- id
+- screen_id
+- parent_id
+- component_type
+- sequence
+- width
+- height
+
+Screen_builder_datasource: Nguồn dữ liệu
+- id
+- screen_id
+- model_id
+- domain
+- order_by
+- limit
+- refresh_interval
+
+Screen_builder_filter: Các điều kiện lọc
+- id
+- datasource_id
+- field
+- operator
+- value
+
+Screen_builder_sort: Lưu cách sắp xếp
+- id
+- datasource_id
+- field
+- ASC/DESC
+
+Screen_builder_permission: Quyết định ai uược làm gì
+- id
+- screen_id
+- permission_type
+- user_id
+- group_id
+- department_id
+
+Screen_builder_workflow: Theo dõi quá trình phê duyệt của màn hình được tạo
+- id
+- screen_id
+- state
+- comment
+- approved_by
+- approved_date
+
+Screen_builder_display_rule: Rule hiển thị giao diện
+- id
+- screen_id
+- field
+- operator
+- value
+- color
+- icon
+- badge
+
+Screen_builder_widget: Làm Dashboard
+- id
+- screen_id
+- layout_id
+- widget_type
+- title
+- config
+
+Screen_builder_version: Lưu lịch sử phiên bản của màn hình được tạo
+- id
+- screen_id
+- version
+- description
+- created_date
+- created_by
+
+Screen_builder_template: Các template được dung sẵn trong module
+- id
+- name
+- description
+- category
+
+Screen_builder_log: Theo dõi log
+- id
+- screen_id
+- action
+- user_id
+- datetime
+- old_value
+- new_value
