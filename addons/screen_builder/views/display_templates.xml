@@ -7,35 +7,115 @@
                 <title><t t_esc="display.name"/></title>
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                
+
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-                
+
                 <script type="text/javascript" src="/screen_builder/static/src/js/display.js"></script>
-                
+
                 <style>
+                    :root {
+                        --screen-bg: #f7f4ff;
+                        --screen-panel: rgba(255, 255, 255, 0.92);
+                        --screen-border: rgba(113, 75, 103, 0.12);
+                        --screen-accent: #714B67;
+                        --screen-accent-2: #8d5d78;
+                        --screen-text: #243447;
+                        --screen-muted: #6b7280;
+                    }
                     body {
-                        background-color: #f3f4f6 !important;
+                        margin: 0;
+                        background: linear-gradient(135deg, #f7f4ff 0%, #f8fbff 45%, #fef7f2 100%);
+                        color: var(--screen-text);
                         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                     }
                     .o_main_navbar {
-                        background-color: #714B67 !important;
+                        background: linear-gradient(135deg, #714B67 0%, #8d5d78 100%) !important;
+                        color: white;
+                        box-shadow: 0 12px 35px rgba(113, 75, 103, 0.24);
+                    }
+                    .screen-shell {
+                        max-width: 1480px;
+                        margin: 0 auto;
+                        padding: 26px 24px 40px;
+                    }
+                    .screen-panel {
+                        background: rgba(255, 255, 255, 0.92);
+                        border: 1px solid rgba(113, 75, 103, 0.12);
+                        border-radius: 24px;
+                        box-shadow: 0 20px 45px rgba(17, 24, 39, 0.08);
+                        padding: 24px;
+                        backdrop-filter: blur(12px);
+                    }
+                    .screen-chip {
+                        border-radius: 999px;
+                        padding: 8px 12px;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                    }
+                    .screen-chip-soft {
+                        background: #f5ebf3;
+                        color: #714B67;
+                    }
+                    .screen-chip-dark {
+                        background: #1f2937;
                         color: white;
                     }
-                    .o_kanban_record {
-                        transition: all 0.2s ease;
-                        border: 1px solid #e2e8f0;
+                    .screen-card {
+                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                        border: 1px solid #ebedf2;
+                        border-radius: 22px;
+                        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+                        background: linear-gradient(135deg, #ffffff 0%, #fcfbff 100%);
+                        color: var(--screen-text);
                     }
-                    .o_kanban_record:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 6px 12px rgba(0,0,0,0.08) !important;
-                        border-color: #714B67 !important;
-                        cursor: pointer;
+                    .screen-card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.10);
+                        border-color: #714B67;
+                    }
+                    .screen-card .bg-light {
+                        background: linear-gradient(135deg, #faf7fc 0%, #f7f9fd 100%) !important;
+                        color: var(--screen-text);
+                    }
+                    .screen-table {
+                        border-radius: 18px;
+                        overflow: hidden;
+                        border: 1px solid #e8ebf0;
+                        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+                    }
+                    .screen-table thead th {
+                        background: linear-gradient(135deg, #f8f3f7 0%, #f5f7fb 100%);
+                        color: #4b5563;
+                        font-weight: 700;
+                        letter-spacing: 0.02em;
+                    }
+                    .screen-empty {
+                        padding: 48px 24px;
+                        text-align: center;
+                        color: #6b7280;
+                        background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+                        border: 1px dashed #d9dee8;
+                        border-radius: 18px;
+                    }
+                    .screen-hero-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 7px 12px;
+                        border-radius: 999px;
+                        border: 1px solid rgba(113, 75, 103, 0.18);
+                        background: #f5ebf3;
+                        color: #714B67;
+                        font-weight: 600;
                     }
                 </style>
             </head>
             <body>
-                <div class="o_main_navbar d-flex justify-content-between align-items-center px-4 py-2 shadow-sm mb-4">
+                <div class="o_main_navbar d-flex justify-content-between align-items-center px-4 py-3 shadow-sm">
                     <div class="d-flex align-items-center gap-2">
                         <i class="fa-solid fa-cubes fs-4 text-warning"></i>
                         <span id="screen_title" class="fw-bold fs-5"><t t_esc="display.name"/></span>
@@ -44,12 +124,32 @@
                         <i class="fa-solid fa-display me-1 text-primary"></i> <t t_esc="display.code"/>
                     </span>
                 </div>
-                
-                <div class="container-fluid px-4">
-                    <div id="sb_root">
-                        <div class="text-center py-5">
-                            <div class="spinner-border text-secondary" role="status"></div>
-                            <p class="mt-2 text-muted">Đang phân tích và đồng bộ giao diện Odoo View...</p>
+
+                <div class="screen-shell">
+                    <div class="screen-panel">
+                        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+                            <div>
+                                <div class="screen-hero-badge mb-2">
+                                    <i class="fa-solid fa-satellite-dish"></i> Public display
+                                </div>
+                                <h2 id="screen_title_main" class="fw-bold mb-1" style="color: #1f2937;"><t t_esc="display.name"/></h2>
+                                <div id="screen_subtitle" class="text-muted">Đang tải dữ liệu và sắp xếp thông tin cho bạn…</div>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="screen-chip screen-chip-soft">
+                                    <i class="fa-solid fa-signal"></i> Live
+                                </span>
+                                <span class="screen-chip screen-chip-dark">
+                                    <i class="fa-solid fa-display"></i> <t t_esc="display.code"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="screen_summary" class="d-flex flex-wrap gap-2 mb-4"></div>
+                        <div id="sb_root">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-secondary" role="status"></div>
+                                <p class="mt-3 text-muted mb-0">Đang phân tích và đồng bộ giao diện Odoo View…</p>
+                            </div>
                         </div>
                     </div>
                 </div>

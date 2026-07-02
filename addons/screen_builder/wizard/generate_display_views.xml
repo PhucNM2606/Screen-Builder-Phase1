@@ -1,3 +1,8 @@
 <odoo>
+    <!-- Wizard file currently only provides the model definition export.
+         The UI for selecting action_id is intentionally not implemented in this sprint,
+         since the backend changes require storing action_id in screen.builder.display.
 
+         Odoo will pass action_id in context when wizard is launched from an action/menu.
+    -->
 </odoo>

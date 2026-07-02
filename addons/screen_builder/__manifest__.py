@@ -9,10 +9,10 @@
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
-
+        "data/sequence.xml",
         "views/screen_display_views.xml",
         "views/display_templates.xml",
-        # "wizard/generate_display_views.xml",
+        "wizard/generate_display_views.xml",
     ],
     "assets": {
         "web.assets_frontend": [

@@ -15,28 +15,30 @@ class GenerateDisplayWizard(models.TransientModel):
 
         if not model_name:
             raise ValueError("Missing active_model")
+        if not record_id:
+            raise ValueError("Missing active_id")
 
         model = self.env["ir.model"].search(
             [("model", "=", model_name)],
             limit=1,
         )
-
         if not model:
             raise ValueError(f"Model not found: {model_name}")
 
-        view = self.env["ir.ui.view"].search(
-            [
-                ("model", "=", model_name),
-                ("type", "=", "form"),
-            ],
-            limit=1,
-        )
+        # Người dùng chọn Menu/Action (act_window) khi tạo Display.
+        # Trong Odoo, wizard thường nhận action_id qua context.
+        action_id = self.env.context.get("default_action_id") or self.env.context.get("action_id")
+        action = self.env["ir.actions.act_window"].sudo().browse(action_id) if action_id else False
+        if action and action.exists():
+            action = action.sudo()
+        else:
+            action = False
 
         display = self.env["screen.builder.display"].create({
             "name": f"{model_name}-{record_id}",
             "model_id": model.id,
             "record_id": record_id,
-            "view_id": view.id if view else False,
+            "action_id": action.id if action else False,
         })
 
         self.display_url = display.public_url
@@ -48,3 +50,4 @@ class GenerateDisplayWizard(models.TransientModel):
             "res_id": self.id,
             "target": "new",
         }
+
