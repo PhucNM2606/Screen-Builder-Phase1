@@ -1,13 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="display_page" name="Display Page">
-        <t t-call="web.frontend_layout">
-
-            <div id="sb_root">Loading...</div>
-
-            <script>
-                window.screen_token = "<t t-esc='token'/>";
-            </script>
-
-        </t>
+    <template id="public_screen_template" name="Public Screen View">
+        &lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title><t t_esc="display.name"/></title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+                
+                <script type="text/javascript" src="/screen_builder/static/src/js/display.js"></script>
+                
+                <style>
+                    body {
+                        background-color: #f3f4f6 !important;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                    }
+                    .o_main_navbar {
+                        background-color: #714B67 !important;
+                        color: white;
+                    }
+                    .o_kanban_record {
+                        transition: all 0.2s ease;
+                        border: 1px solid #e2e8f0;
+                    }
+                    .o_kanban_record:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 12px rgba(0,0,0,0.08) !important;
+                        border-color: #714B67 !important;
+                        cursor: pointer;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="o_main_navbar d-flex justify-content-between align-items-center px-4 py-2 shadow-sm mb-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-cubes fs-4 text-warning"></i>
+                        <span id="screen_title" class="fw-bold fs-5"><t t_esc="display.name"/></span>
+                    </div>
+                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-semibold shadow-sm">
+                        <i class="fa-solid fa-display me-1 text-primary"></i> <t t_esc="display.code"/>
+                    </span>
+                </div>
+                
+                <div class="container-fluid px-4">
+                    <div id="sb_root">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-secondary" role="status"></div>
+                            <p class="mt-2 text-muted">Đang phân tích và đồng bộ giao diện Odoo View...</p>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
     </template>
 </odoo>
