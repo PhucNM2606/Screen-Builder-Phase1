@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const token = window.location.pathname.split("/").pop();
     if (!token) return;
 
+    let pollingInterval = null;
+    const AUTO_REFRESH_INTERVAL = 2000; // 3 seconds
+
     const escapeHtml = (value) => {
         if (value === null || value === undefined || value === false) return "";
         return String(value)
@@ -59,20 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-    fetch(`/api/display/data/${token}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jsonrpc: "2.0", params: {} })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Không thể kết nối mạng với máy chủ Odoo.");
-        return response.json();
-    })
-    .then(res => {
+    const renderScreen = (result) => {
         const container = document.getElementById("sb_root");
         if (!container) return;
-
-        const result = res.result;
 
         if (!result) {
             container.innerHTML = `<div class="screen-empty"><i class="fa-solid fa-triangle-exclamation fs-3 mb-2 d-block"></i><strong>Mã Token không hợp lệ</strong><div class="mt-2">Cấu hình màn hình có thể đã bị tắt hoặc đường dẫn chưa đúng.</div></div>`;
@@ -194,12 +186,55 @@ document.addEventListener("DOMContentLoaded", function () {
             html += `</div>`;
             container.innerHTML = html;
         }
-    })
-    .catch(err => {
-        console.error("Lỗi thực thi JS:", err);
-        const container = document.getElementById("sb_root");
-        if (container) {
-            container.innerHTML = `<div class="screen-empty text-danger"><i class="fa-solid fa-circle-exclamation fs-3 mb-2 d-block"></i><strong>Không thể kết nối</strong><div class="mt-2">${escapeHtml(err.message)}</div></div>`;
+    };
+
+    const fetchScreenData = () => {
+        fetch(`/api/display/data/${token}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jsonrpc: "2.0", params: {} })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Không thể kết nối mạng với máy chủ Odoo.");
+            return response.json();
+        })
+        .then(res => {
+            renderScreen(res.result);
+        })
+        .catch(err => {
+            console.error("Lỗi thực thi JS:", err);
+            const container = document.getElementById("sb_root");
+            if (container) {
+                container.innerHTML = `<div class="screen-empty text-danger"><i class="fa-solid fa-circle-exclamation fs-3 mb-2 d-block"></i><strong>Không thể kết nối</strong><div class="mt-2">${escapeHtml(err.message)}</div></div>`;
+            }
+        });
+    };
+
+    const startAutoRefresh = () => {
+        if (pollingInterval) clearInterval(pollingInterval);
+        pollingInterval = setInterval(fetchScreenData, AUTO_REFRESH_INTERVAL);
+    };
+
+    const stopAutoRefresh = () => {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
+    };
+
+    // Page visibility API to stop polling when tab is hidden
+    document.addEventListener("visibilitychange", function() {
+        if (document.hidden) {
+            stopAutoRefresh();
+        } else {
+            startAutoRefresh();
         }
     });
+
+    // Initial load and start auto-refresh
+    fetchScreenData();
+    startAutoRefresh();
+
+    // Cleanup on page unload
+    window.addEventListener("beforeunload", stopAutoRefresh);
 });
