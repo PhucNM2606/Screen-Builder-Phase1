@@ -127,23 +127,6 @@
 
                 <div class="screen-shell">
                     <div class="screen-panel">
-                        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-                            <div>
-                                <div class="screen-hero-badge mb-2">
-                                    <i class="fa-solid fa-satellite-dish"></i> Public display
-                                </div>
-                                <h2 id="screen_title_main" class="fw-bold mb-1" style="color: #1f2937;"><t t_esc="display.name"/></h2>
-                                <div id="screen_subtitle" class="text-muted">Đang tải dữ liệu và sắp xếp thông tin cho bạn…</div>
-                            </div>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="screen-chip screen-chip-soft">
-                                    <i class="fa-solid fa-signal"></i> Live
-                                </span>
-                                <span class="screen-chip screen-chip-dark">
-                                    <i class="fa-solid fa-display"></i> <t t_esc="display.code"/>
-                                </span>
-                            </div>
-                        </div>
                         <div id="screen_summary" class="d-flex flex-wrap gap-2 mb-4"></div>
                         <div id="sb_root">
                             <div class="text-center py-5">
