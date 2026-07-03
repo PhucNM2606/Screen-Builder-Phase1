@@ -83,7 +83,8 @@
                     }
                     .screen-table {
                         border-radius: 18px;
-                        overflow: hidden;
+                        overflow-x: auto;
+                        overflow-y: hidden;
                         border: 1px solid #e8ebf0;
                         box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
                     }
